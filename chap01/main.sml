@@ -1,1 +1,1 @@
-val _ = print s
+val _ = print s;
