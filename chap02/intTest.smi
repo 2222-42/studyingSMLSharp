@@ -1,0 +1,6 @@
+_require "basis.smi"
+val i32 : int;
+val minInt32 : int;
+val iInf : intInf;
+val iI : intInf;
+val largeInt : intInf;

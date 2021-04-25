@@ -1,0 +1,5 @@
+_require "basis.smi"
+val s : string;
+val ss : string;
+val prefectureCodeUrl : string;
+val size_of_ss : int;

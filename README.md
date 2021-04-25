@@ -13,3 +13,9 @@
 > smlsharp -MMm main.smi > Makefile
 > make
 > ./main
+
+## structure
+
+`structure L = (LibraryName);` とストラクチャの別名を定義する宣言を対話型モードにいれれば、評価され、その型とその操作の型がわかる。
+
+(e.g., `structure B = Bool;`)
