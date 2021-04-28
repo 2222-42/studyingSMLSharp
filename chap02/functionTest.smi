@@ -1,0 +1,11 @@
+_require "basis.smi"
+val g : int -> int;
+val h : int -> int;
+val g' : int -> int;
+val prod : int * int -> int;
+val S : int64 -> int64;
+val L : int64 * int64 -> int64;
+val S' : int64 -> int64;
+val f : int -> int;
+val id : ['a. 'a -> 'a];
+val S'' : int64 -> int64;
