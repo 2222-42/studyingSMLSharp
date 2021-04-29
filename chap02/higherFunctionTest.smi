@@ -1,0 +1,6 @@
+_require "basis.smi"
+val Power: int * int -> int;
+val power: int -> int -> int;
+val square : int -> int;
+val cube : int -> int;
+val Sigma : (int -> int) -> int -> int;
