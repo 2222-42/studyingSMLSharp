@@ -10,12 +10,11 @@ fun execPrint structureName =
                 | isSuccess _ = raise SystemFailure;
         in
             isSuccess (OS.Process.system
-                ("cat >"
+                ("${something to evaluate `makePrintString structureName`} >"
                     ^ "Results/"
                     ^ structureName
                     ^ ".txt"
                     ^ " <<EOF\n"
-                    ^  makePrintString structureName
                     ^ "EOF\n"
                 ))
         end
@@ -37,17 +36,35 @@ fun execPrint structureName =
 
 val libs = ["String", "Bool"] : string list;
 
-List.app execPrint libs
+List.app execPrint libs;
 
-(* OS.Process.system
-("cat >"
+(* 
+
+val structureName = "String";
+OS.Process.system
+(makePrintString structureName);
+
+OS.Process.system
+("cat PrintInterface.sml >"
     ^ "Results/"
-    ^ structureName
+    ^ "test"
     ^ ".txt"
     ^ " <<EOF\n"
-    ^ "${structure String = String;}"
+    ^ ""
     ^ "EOF\n"
 );
 
 OS.Process.system
-("smlsharp\n" ^ "structure String = String;"); *)
+("echo " ^ makePrintString structureName ^ " >"
+    ^ "Results/"
+    ^ "test"
+    ^ ".txt"
+    ^ " <<EOF\n"
+    ^ ""
+    ^ "EOF\n"
+);
+
+OS.Process.system
+("smlsharp\n" ^ makePrintString structureName) 
+
+*)
