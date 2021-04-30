@@ -1,0 +1,11 @@
+_require "basis.smi"
+
+val id : ['a. 'a -> 'a];
+val fst :  ['a, 'b . 'a * 'b -> 'a];
+val isNil: ['a. 'a list -> bool];
+val last : ['a. 'a list -> 'a];
+val age : ['a, 'b. {age: 'a, name: 'b} -> 'a];
+val name : ['a#{name: 'b}, 'b. 'a -> 'b];
+val name' : ['a#{name: 'b}, 'b. 'a -> 'b];
+val incAge : ['a#{age: int}. 'a -> 'a];
+val incAge' : ['a#{age: int}. 'a -> 'a];
