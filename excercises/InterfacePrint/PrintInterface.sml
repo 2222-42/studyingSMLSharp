@@ -2,21 +2,19 @@ fun makePrintString structureName = "structure " ^ structureName ^ " = " ^ struc
 
 exception SystemFailure;
 
-(* TODO:  *)
-
 fun execPrint structureName = 
         let
             fun isSuccess 0 = ()
                 | isSuccess _ = raise SystemFailure;
+            val S = "smlsharp >"
+                ^ "Results/"
+                ^ structureName
+                ^ ".txt"
+                ^ " <<EOF\n"
+                ^ makePrintString structureName
+                ^ "EOF\n"
         in
-            isSuccess (OS.Process.system
-                ("${something to evaluate `makePrintString structureName`} >"
-                    ^ "Results/"
-                    ^ structureName
-                    ^ ".txt"
-                    ^ " <<EOF\n"
-                    ^ "EOF\n"
-                ))
+            isSuccess (OS.Process.system S)
         end
 
 (* structure OSProcess =
@@ -34,37 +32,6 @@ fun execPrint structureName =
   end *)
 
 
-val libs = ["String", "Bool"] : string list;
+val libs = ["String", "Int", "Int8", "Int16", "Int32", "Int64", "IntInf", "Word", "Word8", "Word16", "Word32", "Word64", "Real", "Real32", "Char", "Bool", "List"];
 
 List.app execPrint libs;
-
-(* 
-
-val structureName = "String";
-OS.Process.system
-(makePrintString structureName);
-
-OS.Process.system
-("cat PrintInterface.sml >"
-    ^ "Results/"
-    ^ "test"
-    ^ ".txt"
-    ^ " <<EOF\n"
-    ^ ""
-    ^ "EOF\n"
-);
-
-OS.Process.system
-("echo " ^ makePrintString structureName ^ " >"
-    ^ "Results/"
-    ^ "test"
-    ^ ".txt"
-    ^ " <<EOF\n"
-    ^ ""
-    ^ "EOF\n"
-);
-
-OS.Process.system
-("smlsharp\n" ^ makePrintString structureName) 
-
-*)

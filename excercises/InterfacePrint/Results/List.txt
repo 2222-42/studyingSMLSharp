@@ -1,0 +1,31 @@
+SML# 4.0.0 (2021-04-06 05:12:50 JST) for x86_64-pc-linux-gnu with LLVM 10.0.0
+structure List =
+  struct
+    datatype 'a list = :: of 'a * 'a list | nil
+    exception Empty = List.Empty
+    val null = fn : ['a. 'a list -> bool]
+    val length = fn : ['a. 'a list -> int]
+    val @ = fn : ['a. 'a list * 'a list -> 'a list]
+    val hd = fn : ['a. 'a list -> 'a]
+    val tl = fn : ['a. 'a list -> 'a list]
+    val last = fn : ['a. 'a list -> 'a]
+    val getItem = fn : ['a. 'a list -> ('a * 'a list) option]
+    val nth = fn : ['a. 'a list * int -> 'a]
+    val take = fn : ['a. 'a list * int -> 'a list]
+    val drop = fn : ['a. 'a list * int -> 'a list]
+    val rev = fn : ['a. 'a list -> 'a list]
+    val concat = fn : ['a. 'a list list -> 'a list]
+    val revAppend = fn : ['a. 'a list * 'a list -> 'a list]
+    val app = fn : ['a. ('a -> unit) -> 'a list -> unit]
+    val map = fn : ['a, 'b. ('a -> 'b) -> 'a list -> 'b list]
+    val mapPartial = fn : ['a, 'b. ('a -> 'b option) -> 'a list -> 'b list]
+    val find = fn : ['a. ('a -> bool) -> 'a list -> 'a option]
+    val filter = fn : ['a. ('a -> bool) -> 'a list -> 'a list]
+    val partition = fn : ['a. ('a -> bool) -> 'a list -> 'a list * 'a list]
+    val foldl = fn : ['a, 'b. ('a * 'b -> 'b) -> 'b -> 'a list -> 'b]
+    val foldr = fn : ['a, 'b. ('a * 'b -> 'b) -> 'b -> 'a list -> 'b]
+    val exists = fn : ['a. ('a -> bool) -> 'a list -> bool]
+    val all = fn : ['a. ('a -> bool) -> 'a list -> bool]
+    val tabulate = fn : ['a. int * (int -> 'a) -> 'a list]
+    val collate = fn : ['a. ('a * 'a -> order) -> 'a list * 'a list -> order]
+  end

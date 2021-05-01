@@ -1,0 +1,40 @@
+SML# 4.0.0 (2021-04-06 05:12:50 JST) for x86_64-pc-linux-gnu with LLVM 10.0.0
+structure Char =
+  struct
+    type char = char
+    type string = string
+    val minChar = #"\^@" : char
+    val maxChar = #"\255" : char
+    val maxOrd = 255 : int
+    val ord = <builtin> : char -> int
+    val chr = <builtin> : int -> char
+    val succ = fn : char -> char
+    val pred = fn : char -> char
+    val compare = fn : char * char -> order
+    val < = <builtin> : char * char -> bool
+    val <= = <builtin> : char * char -> bool
+    val > = <builtin> : char * char -> bool
+    val >= = <builtin> : char * char -> bool
+    val contains = fn : string -> char -> bool
+    val notContains = fn : string -> char -> bool
+    val isAscii = fn : char -> bool
+    val toLower = fn : char -> char
+    val toUpper = fn : char -> char
+    val isAlpha = fn : char -> bool
+    val isAlphaNum = fn : char -> bool
+    val isCntrl = fn : char -> bool
+    val isDigit = fn : char -> bool
+    val isGraph = fn : char -> bool
+    val isHexDigit = fn : char -> bool
+    val isLower = fn : char -> bool
+    val isPrint = fn : char -> bool
+    val isSpace = fn : char -> bool
+    val isPunct = fn : char -> bool
+    val isUpper = fn : char -> bool
+    val toString = fn : char -> string
+    val toRawString = fn : char -> string
+    val scan = fn : ['a. ('a -> (char * 'a) option) -> 'a -> (char * 'a) option]
+    val fromString = fn : string -> char option
+    val toCString = fn : char -> string
+    val fromCString = fn : string -> char option
+  end

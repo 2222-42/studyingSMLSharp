@@ -1,0 +1,100 @@
+SML# 4.0.0 (2021-04-06 05:12:50 JST) for x86_64-pc-linux-gnu with LLVM 10.0.0
+structure Real =
+  struct
+    type real = real64
+    val radix = 2 : int
+    val precision = 53 : int
+    val maxFinite = 1.79769313486E308 : real
+    val minPos = 4.94065645841E~324 : real
+    val minNormalPos = 2.22507385851E~308 : real
+    val posInf = inf : real
+    val negInf = ~inf : real
+    val + = <builtin> : real * real -> real
+    val - = <builtin> : real * real -> real
+    val * = <builtin> : real * real -> real
+    val / = <builtin> : real * real -> real
+    val rem = <builtin> : real * real -> real
+    val *+ = fn : real * real * real -> real
+    val *- = fn : real * real * real -> real
+    val ~ = <builtin> : real -> real
+    val abs = <builtin> : real -> real
+    val min = fn : real * real -> real
+    val max = fn : real * real -> real
+    val sign = fn : real -> int
+    val signBit = fn : real -> bool
+    val sameSign = fn : real * real -> bool
+    val copySign = fn : real * real -> real
+    val compare = fn : real * real -> order
+    val compareReal = fn : real * real -> IEEEReal.real_order
+    val < = <builtin> : real * real -> bool
+    val <= = <builtin> : real * real -> bool
+    val > = <builtin> : real * real -> bool
+    val >= = <builtin> : real * real -> bool
+    val == = <builtin> : real * real -> bool
+    val != = <builtin> : real * real -> bool
+    val ?= = <builtin> : real * real -> bool
+    val unordered = fn : real * real -> bool
+    val isFinite = fn : real -> bool
+    val isNan = <builtin> : real -> bool
+    val isNormal = fn : real -> bool
+    val class = fn : real -> IEEEReal.float_class
+    val toManExp = fn : real -> {exp: int, man: real}
+    val fromManExp = fn : {exp: int, man: real} -> real
+    val split = fn : real -> {frac: real, whole: real}
+    val realMod = fn : real -> real
+    val nextAfter = fn : real * real -> real
+    val checkFloat = fn : real -> real
+    val realFloor = fn : real -> real
+    val realCeil = fn : real -> real
+    val realTrunc = fn : real -> real
+    val realRound = fn : real -> real
+    val floor = fn : real -> int
+    val ceil = fn : real -> int
+    val trunc = <builtin> : real -> int
+    val round = fn : real -> int
+    val toInt = fn : IEEEReal.rounding_mode -> real -> int
+    val toLargeInt = fn : IEEEReal.rounding_mode -> real -> intInf
+    val fromInt = <builtin> : int -> real
+    val fromLargeInt = fn : intInf -> real
+    val toLarge = fn : real -> real
+    val fromLarge = fn : IEEEReal.rounding_mode -> real -> real
+    val fmt = fn : StringCvt.realfmt -> real -> string
+    val toString = fn : real -> string
+    val scan = fn : ['a. ('a -> (char * 'a) option) -> 'a -> (real * 'a) option]
+    val fromString = fn : string -> real option
+    val toDecimal =
+      fn
+      : real
+        -> {class: IEEEReal.float_class,
+            digits: int list,
+            exp: int,
+            sign: bool}
+    val fromDecimal =
+      fn
+      : {class: IEEEReal.float_class,
+         digits: int list,
+         exp: int,
+         sign: bool}
+        -> real option
+    structure Math =
+      struct
+        type real = real64
+        val pi = 3.14159265359 : real
+        val e = 2.71828182846 : real
+        val sqrt = fn : real -> real
+        val sin = fn : real -> real
+        val cos = fn : real -> real
+        val tan = fn : real -> real
+        val asin = fn : real -> real
+        val acos = fn : real -> real
+        val atan = fn : real -> real
+        val atan2 = fn : real * real -> real
+        val exp = fn : real -> real
+        val pow = fn : real * real -> real
+        val ln = fn : real -> real
+        val log10 = fn : real -> real
+        val sinh = fn : real -> real
+        val cosh = fn : real -> real
+        val tanh = fn : real -> real
+      end
+  end

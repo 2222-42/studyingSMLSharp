@@ -1,0 +1,9 @@
+SML# 4.0.0 (2021-04-06 05:12:50 JST) for x86_64-pc-linux-gnu with LLVM 10.0.0
+structure Bool =
+  struct
+    datatype bool = false | true
+    val not = fn : bool -> bool
+    val toString = fn : bool -> string
+    val scan = fn : ['a. ('a -> (char * 'a) option) -> 'a -> (bool * 'a) option]
+    val fromString = fn : string -> bool option
+  end

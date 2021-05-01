@@ -1,0 +1,37 @@
+SML# 4.0.0 (2021-04-06 05:12:50 JST) for x86_64-pc-linux-gnu with LLVM 10.0.0
+structure String =
+  struct
+    type string = string
+    type char = char
+    val maxSize = 268435454 : int
+    val size = <builtin> : string -> int
+    val explode = fn : string -> char list
+    val concatWith = fn : string -> string list -> string
+    val isPrefix = fn : string -> string -> bool
+    val isSuffix = fn : string -> string -> bool
+    val isSubstring = fn : string -> string -> bool
+    val translate = fn : (char -> string) -> string -> string
+    val sub = <builtin> : string * int -> char
+    val extract = fn : string * int * int option -> string
+    val substring = fn : string * int * int -> string
+    val ^ = fn : string * string -> string
+    val concat = fn : string list -> string
+    val str = fn : char -> string
+    val implode = fn : char list -> string
+    val map = fn : (char -> char) -> string -> string
+    val tokens = fn : (char -> bool) -> string -> string list
+    val fields = fn : (char -> bool) -> string -> string list
+    val compare = fn : string * string -> order
+    val collate = fn : (char * char -> order) -> string * string -> order
+    val < = fn : string * string -> bool
+    val <= = fn : string * string -> bool
+    val > = fn : string * string -> bool
+    val >= = fn : string * string -> bool
+    val toString = fn : string -> string
+    val toRawString = fn : string -> string
+    val scan =
+      fn : ['a.  ('a -> (char * 'a) option) -> 'a -> (string * 'a) option]
+    val fromString = fn : string -> string option
+    val toCString = fn : string -> string
+    val fromCString = fn : string -> string option
+  end

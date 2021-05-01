@@ -1,0 +1,38 @@
+SML# 4.0.0 (2021-04-06 05:12:50 JST) for x86_64-pc-linux-gnu with LLVM 10.0.0
+structure Int32 =
+  struct
+    type int = int32
+    val toLarge = fn : int -> intInf
+    val fromLarge = fn : intInf -> int
+    val toInt = fn : int -> int
+    val fromInt = fn : int -> int
+    val precision = SOME 32 : int option
+    val minInt = SOME ~2147483648 : int option
+    val maxInt = SOME 2147483647 : int option
+    val + = <builtin> : int * int -> int
+    val - = <builtin> : int * int -> int
+    val * = <builtin> : int * int -> int
+    val div = <builtin> : int * int -> int
+    val mod = <builtin> : int * int -> int
+    val quot = <builtin> : int * int -> int
+    val rem = <builtin> : int * int -> int
+    val compare = fn : int * int -> order
+    val < = <builtin> : int * int -> bool
+    val <= = <builtin> : int * int -> bool
+    val > = <builtin> : int * int -> bool
+    val >= = <builtin> : int * int -> bool
+    val ~ = <builtin> : int -> int
+    val abs = <builtin> : int -> int
+    val min = fn : int * int -> int
+    val max = fn : int * int -> int
+    val sign = fn : int -> int
+    val sameSign = fn : int * int -> bool
+    val fmt = fn : StringCvt.radix -> int -> string
+    val toString = fn : int -> string
+    val scan =
+      fn
+      : ['a.
+         StringCvt.radix
+         -> ('a -> (char * 'a) option) -> 'a -> (int * 'a) option]
+    val fromString = fn : string -> int option
+  end

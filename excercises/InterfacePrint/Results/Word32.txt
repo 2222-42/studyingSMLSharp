@@ -1,0 +1,46 @@
+SML# 4.0.0 (2021-04-06 05:12:50 JST) for x86_64-pc-linux-gnu with LLVM 10.0.0
+structure Word32 =
+  struct
+    type word = word32
+    val wordSize = 32 : int
+    val toLarge = <builtin> : word -> word64
+    val toLargeX = <builtin> : word -> word64
+    val toLargeWord = <builtin> : word -> word64
+    val toLargeWordX = <builtin> : word -> word64
+    val fromLarge = <builtin> : word64 -> word
+    val fromLargeWord = <builtin> : word64 -> word
+    val toLargeInt = fn : word -> intInf
+    val toLargeIntX = fn : word -> intInf
+    val fromLargeInt = fn : intInf -> word
+    val toInt = <builtin> : word -> int
+    val toIntX = <builtin> : word -> int
+    val fromInt = <builtin> : int -> word
+    val andb = <builtin> : word * word -> word
+    val orb = <builtin> : word * word -> word
+    val xorb = <builtin> : word * word -> word
+    val notb = <builtin> : word -> word
+    val << = <builtin> : word * word -> word
+    val >> = <builtin> : word * word -> word
+    val ~>> = <builtin> : word * word -> word
+    val + = <builtin> : word * word -> word
+    val - = <builtin> : word * word -> word
+    val * = <builtin> : word * word -> word
+    val div = <builtin> : word * word -> word
+    val mod = <builtin> : word * word -> word
+    val compare = fn : word * word -> order
+    val < = <builtin> : word * word -> bool
+    val <= = <builtin> : word * word -> bool
+    val > = <builtin> : word * word -> bool
+    val >= = <builtin> : word * word -> bool
+    val ~ = <builtin> : word -> word
+    val min = fn : word * word -> word
+    val max = fn : word * word -> word
+    val fmt = fn : StringCvt.radix -> word -> string
+    val toString = fn : word -> string
+    val scan =
+      fn
+      : ['a.
+         StringCvt.radix
+         -> ('a -> (char * 'a) option) -> 'a -> (word * 'a) option]
+    val fromString = fn : string -> word option
+  end
