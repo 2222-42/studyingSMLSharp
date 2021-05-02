@@ -1,21 +1,19 @@
-fun makePrintString structureName = "structure " ^ structureName ^ " = " ^ structureName ^ ";";
+structure PrintInterface = 
+struct
+  fun makePrintString structureName = "structure " ^ structureName ^ " = " ^ structureName ^ ";";
 
-exception SystemFailure;
-
-fun execPrint structureName = 
-        let
-            fun isSuccess 0 = ()
-                | isSuccess _ = raise SystemFailure;
-            val S = "smlsharp >"
-                ^ "Results/"
-                ^ structureName
-                ^ ".txt"
-                ^ " <<EOF\n"
-                ^ makePrintString structureName
-                ^ "EOF\n"
-        in
-            isSuccess (OS.Process.system S)
-        end
+  fun execPrint structureName = 
+      let
+        val S = "smlsharp >"
+          ^ "Results/" ^ structureName ^ ".txt"
+          ^ " <<EOF\n"
+          ^ makePrintString structureName
+          ^ "\nEOF\n";
+        val E = "echo \"$(tail -n +2 Results/" ^ structureName ^ ".txt)\" > Results/" ^ structureName ^ ".txt";
+      in
+        ((OS.Process.system S);(OS.Process.system E);())
+      end;
+end
 
 (* structure OSProcess =
   struct
@@ -30,8 +28,3 @@ fun execPrint structureName =
     val getEnv = fn : string -> string option
     val sleep = fn : Time.time -> unit
   end *)
-
-
-val libs = ["String", "Int", "Int8", "Int16", "Int32", "Int64", "IntInf", "Word", "Word8", "Word16", "Word32", "Word64", "Real", "Real32", "Char", "Bool", "List"];
-
-List.app execPrint libs;
