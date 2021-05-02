@@ -1,0 +1,6 @@
+_require "basis.smi"
+val myLength :  ['a. 'a list -> int];
+val myHd : ['a. 'a list -> 'a];
+val myHd' : ['a. 'a list -> 'a option];
+val result : int;
+val hdOrZero: int list -> int;
