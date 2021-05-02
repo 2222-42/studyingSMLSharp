@@ -1,4 +1,5 @@
 _require "basis.smi"
+_require "reify.smi"
 structure FunctionTest = 
 struct
     val sum : int64 -> int64

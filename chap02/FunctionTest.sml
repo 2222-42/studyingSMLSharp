@@ -20,8 +20,12 @@ struct
 
     fun Sigma f n = 
             let
-                fun L (0, a) = a
-                    | L(n, a) = L (n-1, a + f n)
+                fun L (n, a) = 
+                        (Dynamic.pp {n = n, a = a};
+                            case n of 
+                                0 => a
+                            | n => L (n-1, a + f n)
+                        )
             in
                 L (n, 0)
             end
