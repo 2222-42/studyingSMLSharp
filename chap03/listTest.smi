@@ -4,3 +4,5 @@ val myHd : ['a. 'a list -> 'a];
 val myHd' : ['a. 'a list -> 'a option];
 val result : int;
 val hdOrZero: int list -> int;
+val myRev : ['a. 'a list -> 'a list];
+val myRev2 : ['a. 'a list -> 'a list];

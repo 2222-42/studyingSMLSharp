@@ -22,3 +22,5 @@ fun hdOrZero l =
             SOME x => x
         | NONE => 0;
 
+fun myRev l = (List.foldl (fn (x, y) => x :: y) nil l);
+fun myRev2 l = (List.foldl (op ::) nil l);
