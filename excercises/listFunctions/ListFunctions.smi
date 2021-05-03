@@ -1,0 +1,12 @@
+_require "basis.smi"
+structure ListFunctions = 
+struct
+    val revL : ['a. 'a list * 'a list -> 'a list]
+    val rev : ['a. 'a list -> 'a list]
+    val map : ['a, 'b. ('a -> 'b) -> 'a list -> 'b list]
+    val append: ['a. 'a list * 'a list -> 'a list]
+    val filter : ['a. ('a -> bool) -> 'a list -> 'a list]
+    val concat : ['a. 'a list list -> 'a list]
+    val zip : ['a, 'b. 'a list * 'b list -> ('a * 'b) list]
+    val unzip : ['a, 'b. ('a * 'b) list -> 'a list * 'b list]
+end
