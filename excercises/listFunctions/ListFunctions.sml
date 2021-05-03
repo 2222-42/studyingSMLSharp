@@ -27,8 +27,8 @@ struct
             end;
     fun zip (l1, l2) = 
             let
-                fun L (nil, _ , a) = a
-                    | L (_, nil , a) = a
+                fun L (nil, _ , a) = rev a
+                    | L (_, nil , a) = rev a
                     | L (h1::t1, h2::t2, a) = L(t1, t2, (h1, h2) :: a)
             in
                 L(l1, l2, nil)
