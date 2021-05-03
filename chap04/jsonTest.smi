@@ -1,0 +1,9 @@
+_require "basis.smi"
+datatype json = BOOL of bool
+| NUMBER of string
+| STRING of string
+| NULL
+| ARRAY of json list
+| OBJECT of (string * json) list;
+val copyJson : json -> json;
+val serializeJson : json -> string
