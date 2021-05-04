@@ -1,0 +1,8 @@
+type pos = int * int
+datatype color = BLACK | WHITE
+type board
+val get : board -> pos -> color option
+val put : board -> post -> color -> board
+val initBoard : board
+type game = {board : board, next : color option}
+val init = {board: initBoard, next = SOME BLACK}
