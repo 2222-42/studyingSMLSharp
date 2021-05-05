@@ -1,8 +1,10 @@
+_require "basis.smi"
 type pos = int * int
 datatype color = BLACK | WHITE
-type board
+type board (=unit)
 val get : board -> pos -> color option
-val put : board -> post -> color -> board
+val put : board -> pos -> color -> board
 val initBoard : board
 type game = {board : board, next : color option}
-val init = {board: initBoard, next = SOME BLACK}
+val step : game -> pos -> game option
+val play : pos list -> game option
