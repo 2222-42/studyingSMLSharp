@@ -6,7 +6,7 @@ fun get nil _ = NONE
         if p = pos then SOME c else get t pos;
 fun put nil pos c = [(pos, c)]
     | put ((p, c) :: t) pos color = 
-        if p then (p, color) :: t 
+        if p = pos then (p, color) :: t 
         else (p, c) :: (put t pos color);
 val initBoard =  [((3,3), WHITE), ((4,3), BLACK), ((3,4), BLACK), ((4,4), WHITE)]
 type game = {board : board, next : color option};
