@@ -8,3 +8,7 @@ val initBoard : board
 type game = {board : board, next : color option}
 val step : game -> pos -> game option
 val play : pos list -> game option
+
+val flip : board -> color -> pos -> pos list
+val move : board -> color -> po list -> board
+val next : board -> color -> color option
