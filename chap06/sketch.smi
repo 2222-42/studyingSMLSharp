@@ -9,6 +9,7 @@ type game = {board : board, next : color option}
 val step : game -> pos -> game option
 val play : pos list -> game option
 
+val flipDir : board -> color -> pos -> int * int -> pos list
 val flip : board -> color -> pos -> pos list
 val move : board -> color -> pos list -> board
 val next : board -> color -> color option

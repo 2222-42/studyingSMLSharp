@@ -12,8 +12,19 @@ val initBoard =  [((3,3), WHITE), ((4,3), BLACK), ((3,4), BLACK), ((4,4), WHITE)
 type game = {board : board, next : color option};
 val init = {board = initBoard, next = SOME BLACK};
 
-val flip = raise Fail "unimplemented"; (* 未実装 *)
-val move = raise Fail "unimplemented"; (* 未実装 *)
+val directions = 
+    [
+        (~1, ~1), (0, ~1), (1, ~1), (~1, 0),
+        (1, 0), (~1, 1), (0, 1), (1,1)
+    ];
+
+val flipDir =  raise Fail "unimplemented"; (* 未実装 *)
+fun flip board color pos= 
+        case get board pos of
+            SOME _ => nil (* すでに石がある場合はおけないので *)
+        | NONE => List.concat (map (flipDir board color pos) directions) ; (* 8方向で挟まれた相手の石の座標のリスト *)
+fun move board color posisitions = 
+        foldl (fn (pos, board) => put board pos color) board posisitions ;
 val next = raise Fail "unimplemented"; (* 未実装 *)
 
 fun step {next = NONE, ...} pos =  NONE
