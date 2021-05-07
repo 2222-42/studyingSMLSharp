@@ -14,3 +14,6 @@ val flipDir : board -> color -> pos -> int * int -> pos list
 val flip : board -> color -> pos -> pos list
 val move : board -> color -> pos list -> board
 val next : board -> color -> color option
+
+val opponent : color -> color
+val possible : board -> color -> pos list

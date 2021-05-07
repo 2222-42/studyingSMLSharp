@@ -1,6 +1,12 @@
 type pos = int * int;
 datatype color = BLACK | WHITE;
 type board = (pos * color) list;
+
+val boardSize = 8;
+val allPos = 
+  List.tabulate 
+  (boardSize * boardSize, fn i => (i mod boardSize, i div boardSize));
+
 fun get nil _ = NONE
   | get ((p, c) :: t) pos = 
     if p = pos then SOME c else get t pos;
@@ -38,10 +44,24 @@ fun flipDir board color pos (dir as (dx, dy)) =
 fun flip board color pos= 
     case get board pos of
       SOME _ => nil (* すでに石がある場合はおけないので *)
-    | NONE => List.concat (map (flipDir board color pos) directions) ; (* 8方向で挟まれた相手の石の座標のリスト *)
+    | NONE => List.concat (map (flipDir board color pos) directions); (* 8方向で挟まれた相手の石の座標のリスト *)
 fun move board color posisitions = 
-    foldl (fn (pos, board) => put board pos color) board posisitions ;
-val next = raise Fail "unimplemented"; (* 未実装 *)
+    foldl (fn (pos, board) => put board pos color) board posisitions;
+
+fun opponent BLACK = WHITE 
+  | opponent WHITE = BLACK;
+fun possible board color= 
+    List.filter
+    (fn pos => not (null (flip board color pos)))
+    allPos;
+
+fun next board color = 
+    case possible board (opponent color) of
+      _ :: _ => SOME (opponent color)
+    | nil => 
+      case possible board color of
+        _ :: _ => SOME color
+      | nil => NONE; 
 
 fun step {next = NONE, ...} pos =  NONE
   | step {board, next = SOME color} pos = 
