@@ -10,16 +10,22 @@ struct
         NONE => NONE
       | SOME s => stringToPos s;
 
-  fun colorToString Game.BLACK = "●"
-    | colorToString Game.WHITE = "○";
+  fun colorToString Game.BLACK = "X"
+    | colorToString Game.WHITE = "Y";
   fun rowToString board y = 
-      String.concat(
+      Int.toString y
+      ^ String.concat(
         (List.tabulate (Game.boardSize, fn x => case Game.get board (x, y) of
                 SOME c => colorToString c
-              | NONE => "_"))
-      ) ^ "\n";
+              | NONE => "_")))
+      ^ "\n";
+
   fun boardToString board = 
-      String.concat(List.tabulate (Game.boardSize, rowToString board));
+      " " 
+      ^ String.concat(
+        List.tabulate (Game.boardSize, fn x => Int.toString x)) 
+      ^ "\n"
+      ^ String.concat(List.tabulate (Game.boardSize, rowToString board));
   fun gameToString {board, next = SOME c} = (* game -> string *)
       boardToString board ^ colorToString c ^ "の手番です\n"
     | gameToString {board, next = NONE} = 
