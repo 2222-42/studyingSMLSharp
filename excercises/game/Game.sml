@@ -65,16 +65,16 @@ struct
           _ :: _ => SOME color
         | nil => NONE; 
 
-  fun step {next = NONE, ...} pos =  NONE
+  fun step {next = NONE, ...} pos = NONE
     | step {board, next = SOME color} pos = 
       case flip board color pos of
-        nil => NONE
+        nil => SOME {board = board, next = SOME color}
       | posisitions => 
         let
           val b  = move board color (pos :: posisitions);
         in
           SOME {board = b, next = next b color}
-        end ; 
+        end;
 
   fun play moves = 
       foldl 

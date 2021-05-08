@@ -52,7 +52,7 @@ struct
           NONE => mainLoop game (* 何も入力しない場合も終わらせない *)
         | SOME pos => 
           case Game.step game pos of
-            NONE => ()
+            NONE => () (* 不正な値が入力されても大丈夫にする *)
           | SOME game => mainLoop game);
 end
 
