@@ -26,8 +26,14 @@ struct
         List.tabulate (Game.boardSize, fn x => Int.toString x)) 
       ^ "\n"
       ^ String.concat(List.tabulate (Game.boardSize, rowToString board));
+
+  fun possibleToString board color = 
+      String.concatWith ", " (map (fn (x, y) => Int.toString x ^ " " ^ Int.toString y) (Game.possible board color));
+  
   fun gameToString {board, next = SOME c} = (* game -> string *)
-      boardToString board ^ colorToString c ^ "の手番です\n"
+      boardToString board ^ colorToString c ^ "の手番です\n" 
+      ^ "可能な手は以下の通りです: \n"
+      ^ possibleToString board c ^ "\n"
     | gameToString {board, next = NONE} = 
       boardToString board ^ "終局\n";
 
@@ -43,7 +49,7 @@ struct
   fun mainLoop game = 
       (print (gameToString game);
         case readPos() of
-          NONE => ()
+          NONE => mainLoop game (* 何も入力しない場合も終わらせない *)
         | SOME pos => 
           case Game.step game pos of
             NONE => ()
