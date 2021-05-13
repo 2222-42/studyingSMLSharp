@@ -6,4 +6,4 @@ struct
   val genrand64_real1 = _import "genrand64_real1" : () -> real;
   val genrand64_real2 = _import "genrand64_real2" : () -> real;
   val genrand64_real3 = _import "genrand64_real3" : () -> real;
-end
+end;
