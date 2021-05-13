@@ -8,3 +8,4 @@ struct
     val Sigma : (int -> int) -> int -> int
     val sumCubeSigma : int -> int
 end
+val test : int

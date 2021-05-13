@@ -30,5 +30,7 @@ struct
                 L (n, 0)
             end
     
-    val sumCubeSigma = Sigma cube
+    val sumCubeSigma = Sigma cube;
 end
+
+val test = 1;
