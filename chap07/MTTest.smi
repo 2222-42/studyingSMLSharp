@@ -2,3 +2,7 @@ _require "basis.smi"
 _require "reify.smi"
 _require "ffi.smi"
 _require "./MT.smi"
+
+val qsort : ['a#unboxed. 'a array * ('a ptr * 'a ptr -> int) -> unit]
+
+val quickSort : ['a#unboxed. 'a array * ('a * 'a -> order) -> unit]

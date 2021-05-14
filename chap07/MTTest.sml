@@ -46,15 +46,45 @@ fun 'a#unboxed qsort (array, compare) =
             compare)
   end;
 
+fun orderToCompare order (p1, p2) =
+  let
+    val n1 = Pointer.load p1
+    val n2 = Pointer.load p2
+    fun orderToInt order (v1, v2) =
+                                  case order(v1, v2)
+                                   of EQUAL => 0
+                                    | LESS => ~1
+                                    | GREATER => 1;
+  in
+    orderToInt order (n1, n2)
+  end;
+
+fun 'a#unboxed quickSort (array, order) =
+  let
+    val qsort_c =
+        _import "qsort" : ('a array, size_t, 'a size, ('a ptr, 'a ptr) -> int) -> ();
+  in
+    qsort_c (array,
+            Word64.fromInt (Array.length array),
+            _sizeof('a),
+            orderToCompare order)
+  end;
+
 val randInt63Array = Array.fromList randInt63;
 val randReal1Array = Array.fromList randReal1;
 val randReal2Array = Array.fromList randReal2;
 val randReal3Array = Array.fromList randReal3;
 
+(*
 val _ = qsort (randInt63Array, compare);
 val _ = qsort (randReal1Array, compare);
 val _ = qsort (randReal2Array, compare);
-val _ = qsort (randReal3Array, compare);
+val _ = qsort (randReal3Array, compare);**)
+
+val _ = quickSort (randInt63Array, Int64.compare);
+val _ = quickSort (randReal1Array, Real.compare);
+val _ = quickSort (randReal2Array, Real.compare);
+val _ = quickSort (randReal3Array, Real.compare);
 
 Dynamic.pp
   {

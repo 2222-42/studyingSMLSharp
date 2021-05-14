@@ -1,3 +1,5 @@
 _import "./basis.smi"
 
 val qsort : ['a#unboxed. 'a array * ('a ptr * 'a ptr -> int) -> unit]
+
+val quickSort : ['a#unboxed. 'a array * ('a * 'a -> order) -> unit]
