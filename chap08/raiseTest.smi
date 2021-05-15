@@ -1,0 +1,4 @@
+_require "basis.smi"
+
+val prodList : int list -> int;
+val find : ('a -> bool) * 'a list -> 'a option;
