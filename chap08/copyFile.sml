@@ -149,5 +149,5 @@ fun copyFile inFile outFile =
     in
         (loop ();
          TextIO.closeIn inStream;
-         TestIO.closeOUt outStream)
+         TextIO.closeOut outStream)
     end

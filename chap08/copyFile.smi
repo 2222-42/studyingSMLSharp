@@ -1,1 +1,3 @@
-_require ".basis.smi"
+_require "basis.smi"
+
+val copyFile : string -> string -> unit;
