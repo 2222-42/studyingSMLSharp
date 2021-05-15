@@ -1,0 +1,10 @@
+_require "basis.smi"
+_require "reify.smi"
+
+structure JSONImport =
+struct
+val castLike : ['a, 'b#reify. 'a Dynamic.dyn -> 'b -> 'b]
+val import : ['a#{sample: 'b, url: string}, 'b#reify. 'a -> 'b]
+end
+
+val jpNpatients : {contents: string, sample: {adpatients: int, date: string, npatients: int} list, url: string};
