@@ -138,16 +138,21 @@ opening BinIO
 
 fun copyFile inFile outFile =
     let
-        val inStream = TextIO.openIn inFile;
-        val outStream = TextIO.openOut outFile;
+        open TextIO
+        val inStream = TextIO.openIn inFile
+                       handle E => IOErrHandler (E, fn () => ());
+        val outStream = TextIO.openOut outFile
+                        handle E => IOErrHandler (E, fn () => closeIn inStream);
         fun loop () =
-            if TextIO.endOfStream inStream then ()
+            if endOfStream inStream then ()
             else
-                case TextIO.input1 inStream
-                 of SOME c => (TextIO.output1 (outStream, c); loop ())
+                case input1 inStream
+                 of SOME c => (output1 (outStream, c); loop ())
                  |  NONE => loop()
     in
-        (loop ();
-         TextIO.closeIn inStream;
-         TextIO.closeOut outStream)
+        (loop ()
+         handle E => IOErrHandler (E, fn () => (closeIn inStream; closeOut outStream));
+         closeIn inStream;
+         closeOut outStream)
     end
+  handle IOError => ();

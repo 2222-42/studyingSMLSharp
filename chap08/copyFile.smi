@@ -1,3 +1,4 @@
 _require "basis.smi"
+_require "./IOError.smi"
 
 val copyFile : string -> string -> unit;

@@ -1,5 +1,5 @@
 exception IOError;
-fun IOErrHandler exn =
+fun IOErrHandler (exn, finalize)=
     (case exn
       of IO.Io {name, function, cause}
          => (print ("IO Error: "^ function ^ " failed.\n");
@@ -17,6 +17,7 @@ fun IOErrHandler exn =
        | IO.ClosedStream =>
          print "IO failed : closed stream.\n"
        | exn => raise exn;
+     finalize ();
      raise IOError
     );
 (*
