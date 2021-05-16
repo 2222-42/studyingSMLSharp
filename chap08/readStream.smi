@@ -1,0 +1,4 @@
+_require "basis.smi"
+_require "./IOError.smi"
+
+val readBinStream : string -> int list
