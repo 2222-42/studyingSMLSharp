@@ -1,0 +1,5 @@
+_require "basis.smi"
+_require "reify.smi"
+_require "./JSONImport.smi"
+
+val jpNpatients : {contents: string, sample: {adpatients: int, date: string, npatients: int} list, url: string};

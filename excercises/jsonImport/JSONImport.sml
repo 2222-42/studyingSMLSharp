@@ -19,13 +19,3 @@ fun 'a#reify import {url, sample : 'a, ...} =
     castLike (downloadJson url) sample;
 end;
 
-val jpNpatients =
-    {url = "https://data.corona.go.jp/converted-json/covid19japan-npatients.json",
-     contents = "累積陽性者数",
-     sample = [{date = "",
-                npatients = 0,
-                adpatients = 0}]
-    };
-(*
-JSONImport.import jpNpatients;
-*)
