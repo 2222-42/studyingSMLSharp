@@ -4,4 +4,4 @@
 *.o
 *.so
 *.log
-*.env
+*.env*
