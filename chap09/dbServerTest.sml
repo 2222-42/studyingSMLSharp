@@ -18,22 +18,17 @@ val Q = _sql db => select #p.name as name, #p.age as age
 val myDBcur = Q myDBconn; (* get t SQL.cursor  *)
 
 
-(*
-SQL.fetch myDBcur; (* fetch t option *)
-SQL.fetchAll myDBcur; (* fetch t list. This closes SQL.cursor. *)
-*)
 
-SQL.closeCursor myDBcur; (* close cursor *)
-(*
-SQL.closeConn myDBconn; (* close connection of connection handle *)
-*)
+val _ = Dynamic.pp (SQL.fetch myDBcur); (* fetch t option *)
+val _ = Dynamic.pp (SQL.fetchAll myDBcur); (* fetch t list. This closes SQL.cursor. *)
 
 fun selectYoung n = _sql db => select #p.name, #p.age
                                                   from #db.persons as p
                                                   where #p.age > (n + 10);
-(*
-fun selectYoung n = _sql db => select #p.name as name, #p.age as age
-                                                   from #db.persons as p
-                                                   where #p.age > n + 10;
-*)
-val myResult = selectYoung 10 myDBconn;
+val youngResult = selectYoung 10 myDBconn;
+
+val _ = Dynamic.pp (SQL.fetch youngResult);
+SQL.closeCursor youngResult; (* close cursor *)
+
+
+SQL.closeConn myDBconn; (* close connection of connection handle *)
