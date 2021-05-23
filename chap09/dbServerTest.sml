@@ -38,7 +38,8 @@ fun myDBinsertPersons L =
     insert into #db.persons (name, age)
            values L;
 
-(*myDBinsertPersons [{name="father", age=75}, {name="son", age= 3}] myDBconn;
+(*
+myDBinsertPersons [{name="father", age=75}, {name="son", age= 3}] myDBconn;
 
 val Q = _sql db => select #p.name as name, #p.age as age
                                                   from #db.persons as p
@@ -46,5 +47,16 @@ val Q = _sql db => select #p.name as name, #p.age as age
 val myDBcur = Q myDBconn; (* get t SQL.cursor  *)
 val _ = Dynamic.pp (SQL.fetchAll myDBcur); *)
 
+(* 9.8.2 delete *)
+fun retire n =
+    _sql db => delete from #db.persons where #persons.age > n;
 
+(*
+retire 65 myDBconn;
+val Q = _sql db => select #p.name as name, #p.age as age
+                                                  from #db.persons as p
+                                                  where #p.age > 43;
+val myDBcur = Q myDBconn; (* get t SQL.cursor  *)
+val _ = Dynamic.pp (SQL.fetchAll myDBcur);
+*)
 SQL.closeConn myDBconn; (* close connection of connection handle *)

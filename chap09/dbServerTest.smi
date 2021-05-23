@@ -17,3 +17,4 @@ val youngResult : (string*int) SQL.cursor
 val insertPersons : {age: int, name: string} list
                     -> ['e#{persons: 'f list}, 'f#{age: int, name: string}. 'e SQL.conn -> unit]
 val myDBinsertPersons : {age: int, name: string} list -> {persons: {age: int, name: string} list} SQL.conn -> unit
+val retire : int -> ['c#{persons: {age: int, name: string} list}, 'd#{age: int}. 'c SQL.conn -> unit]
