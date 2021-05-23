@@ -18,7 +18,6 @@ val Q = _sql db => select #p.name as name, #p.age as age
 val myDBcur = Q myDBconn; (* get t SQL.cursor  *)
 
 
-
 val _ = Dynamic.pp (SQL.fetch myDBcur); (* fetch t option *)
 val _ = Dynamic.pp (SQL.fetchAll myDBcur); (* fetch t list. This closes SQL.cursor. *)
 
@@ -29,6 +28,23 @@ val youngResult = selectYoung 10 myDBconn;
 
 val _ = Dynamic.pp (SQL.fetch youngResult);
 SQL.closeCursor youngResult; (* close cursor *)
+
+(* 9.8.1 insert *)
+fun insertPersons L =
+    _sql db => insert into #db.persons (name, age) values L;
+
+fun myDBinsertPersons L =
+    _sql db : (myDBty, _) SQL.db =>
+    insert into #db.persons (name, age)
+           values L;
+
+(*myDBinsertPersons [{name="father", age=75}, {name="son", age= 3}] myDBconn;
+
+val Q = _sql db => select #p.name as name, #p.age as age
+                                                  from #db.persons as p
+                                                  where #p.age < 43;
+val myDBcur = Q myDBconn; (* get t SQL.cursor  *)
+val _ = Dynamic.pp (SQL.fetchAll myDBcur); *)
 
 
 SQL.closeConn myDBconn; (* close connection of connection handle *)

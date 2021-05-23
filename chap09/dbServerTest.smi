@@ -3,8 +3,9 @@ _require "sql.smi"
 _require "reify.smi"
 _require "./myDBEnv.smi"
 
-val myDBserver : {persons: {age: int, name: string} list} SQL.server
-val myDBconn : {persons: {age: int, name: string} list} SQL.conn
+type myDBty = {persons: {age: int, name: string} list}
+val myDBserver : myDBty SQL.server
+val myDBconn : myDBty SQL.conn
 val Q : ['a#{persons: 'b list},
           'b#{age: int, name: string}.
           'a SQL.conn -> {age: int, name: string} SQL.cursor]
@@ -13,3 +14,6 @@ val selectYoung : int -> ['a#{persons: 'b list},
                           'b#{age: int, name: string}.
                           'a SQL.conn -> (string*int) SQL.cursor]
 val youngResult : (string*int) SQL.cursor
+val insertPersons : {age: int, name: string} list
+                    -> ['e#{persons: 'f list}, 'f#{age: int, name: string}. 'e SQL.conn -> unit]
+val myDBinsertPersons : {age: int, name: string} list -> {persons: {age: int, name: string} list} SQL.conn -> unit
