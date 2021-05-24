@@ -1,4 +1,7 @@
-type myDBty = {persons: {age: int, name: string} list};
+type myDBty = {
+    persons: {age: int, name: string} list,
+    accounts: {balance: int, name: string} list
+};
 
 fun mkServer db = _sqlserver (db: SQL.backend) : myDBty; (* define database  *)
 
@@ -11,12 +14,10 @@ val myDBserver = mkServer pgsqlDB;
     : {persons: {name: string, age: int} list};*)
 val myDBconn = SQL.connect myDBserver; (* connect and receive connetion handle *)
 
-
 val Q = _sql db => select #p.name as name, #p.age as age
                                                   from #db.persons as p
                                                   where #p.age < 43;
 val myDBcur = Q myDBconn; (* get t SQL.cursor  *)
-
 
 val _ = Dynamic.pp (SQL.fetch myDBcur); (* fetch t option *)
 val _ = Dynamic.pp (SQL.fetchAll myDBcur); (* fetch t list. This closes SQL.cursor. *)
@@ -64,4 +65,33 @@ val newAcademicYear =
 val myDBnewAcademicYear =
     _sql db : (myDBty, _) SQL.db => update #db.persons set age = #persons.age + 1;
 
+
+(* 9.8.4 transaction *)
+fun insertAccounts L =
+    _sql db => insert into #db.accounts (name, balance) values L;
+
+(* insertAccounts [{name="shanada", balance=10000}, {name="John Doe", balance=20000}] myDBconn;*)
+
+fun atomicTransfer (amount: int) (payer: string) payee conn =
+    let
+        val begin = _sql db => begin;
+        val commit = _sql db => commit;
+        val debit =
+            _sql db => update #db.accounts
+                              set balance = #accounts.balance - amount
+                                                                  where #accounts.name = payer;
+        val credit =
+            _sql db => update #db.accounts
+                              set balance = #accounts.balance + amount
+                                                                  where #accounts.name = payee;
+    in
+        begin conn; debit conn; credit conn; commit conn
+    end;
+
+(* atomicTransfer 100 "John Doe" "shanada" myDBconn;*)
+
+val ShowAccounts = _sql db => select #p.name as name, #p.balance as balance
+                                                                 from #db.accounts as p;
+val accountsDBcur = ShowAccounts myDBconn; (* get t SQL.cursor  *)
+val _ = Dynamic.pp (SQL.fetchAll accountsDBcur);
 (*SQL.closeConn myDBconn; (* close connection of connection handle *)*)
