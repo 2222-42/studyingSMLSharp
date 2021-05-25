@@ -1,7 +1,18 @@
+type personTy= {age: int, name: string};
 type myDBty = {
-    persons: {age: int, name: string} list,
+    persons: personTy list,
     accounts: {balance: int, name: string} list
 };
+type resultTy = {name: string, age: int} list;
+type fromTy = {p: personTy} list;
+type whereTy = fromTy -> fromTy;
+
+val F = fn db: (myDBty, _) SQL.db =>
+           (_sql from #db.persons as p): (fromTy, _) SQL.from;
+val W = fn db: (myDBty, _) SQL.db =>
+           (_sql where #p.age < 43) : (whereTy, _) SQL.whr;
+val S = fn db: (myDBty, _) SQL.db =>
+           (_sql select #p.name as name, #p.age as age) : (fromTy, resultTy, _) SQL.select;
 
 fun mkServer db = _sqlserver (db: SQL.backend) : myDBty; (* define database  *)
 
@@ -14,10 +25,10 @@ val myDBserver = mkServer pgsqlDB;
     : {persons: {name: string, age: int} list};*)
 val myDBconn = SQL.connect myDBserver; (* connect and receive connetion handle *)
 
-val Q = _sql db => select #p.name as name, #p.age as age
-                                                  from #db.persons as p
-                                                  where #p.age < 43;
-val myDBcur = Q myDBconn; (* get t SQL.cursor  *)
+val Q = _sql db => select ...(S db)
+                           from ...(F db)
+                           where ...(W db);
+val myDBcur = Q myDBconn;
 
 val _ = Dynamic.pp (SQL.fetch myDBcur); (* fetch t option *)
 val _ = Dynamic.pp (SQL.fetchAll myDBcur); (* fetch t list. This closes SQL.cursor. *)

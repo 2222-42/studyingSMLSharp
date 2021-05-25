@@ -3,13 +3,16 @@ _require "sql.smi"
 _require "reify.smi"
 _require "./myDBEnv.smi"
 
+type personTy= {age: int, name: string}
 type myDBty = {persons: {age: int, name: string} list, accounts: {balance: int, name: string} list}
+type resultTy = {name: string, age: int} list
+type fromTy = {p: personTy} list
+type whereTy = fromTy -> fromTy
+
 val myDBserver : myDBty SQL.server
 val myDBconn : myDBty SQL.conn
 
-val Q : ['a#{persons: 'b list},
-          'b#{age: int, name: string}.
-          'a SQL.conn -> {age: int, name: string} SQL.cursor]
+val Q : myDBty SQL.conn -> personTy SQL.cursor
 val myDBcur : {age: int, name: string} SQL.cursor
 val selectYoung : int -> ['a#{persons: 'b list},
                           'b#{age: int, name: string}.
