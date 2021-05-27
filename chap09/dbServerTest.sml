@@ -83,20 +83,20 @@ fun insertAccounts L =
 
 (* insertAccounts [{name="shanada", balance=10000}, {name="John Doe", balance=20000}] myDBconn;*)
 
-fun atomicTransfer (amount: int) (payer: string) payee conn =
+fun atomicTransfer (amount: int) (payer: string) payee  =
     let
         val begin = _sql db => begin;
         val commit = _sql db => commit;
-        val debit =
-            _sql db => update #db.accounts
-                              set balance = #accounts.balance - amount
-                                                                  where #accounts.name = payer;
-        val credit =
-            _sql db => update #db.accounts
-                              set balance = #accounts.balance + amount
-                                                                  where #accounts.name = payee;
+        fun debit db =
+            _sql update #db.accounts
+                 set balance = #accounts.balance - amount
+                                                     where #accounts.name = payer;
+        fun credit db =
+            _sql update #db.accounts
+                 set balance = #accounts.balance + amount
+                                                     where #accounts.name = payee;
     in
-        begin conn; debit conn; credit conn; commit conn
+        _sql db => (begin; ...(debit db); ...(credit db); commit)
     end;
 
 (* atomicTransfer 100 "John Doe" "shanada" myDBconn;*)
