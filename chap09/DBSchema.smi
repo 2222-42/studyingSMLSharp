@@ -1,0 +1,23 @@
+_require "basis.smi"
+_require "sql.smi"
+
+structure DBSchema =
+struct
+type PrefecturesListTy = {code: string, prefectureName: string}
+type PopulationByPrefectureTy = {code: string, population: real}
+type CumulativePositiveByPrefectureTy = {prefectureName: string, cumulativePositive: real}
+type DataSourceTy = {
+PrefectureData: string,
+PrefectureDataGetAt: string,
+covid19: string,
+covid19UpdatedAt:string
+}
+type covidDB = {
+DataSource: DataSourceTy list,
+PrefecturesList: PrefecturesListTy list,
+PopulationByPrefecture: PopulationByPrefectureTy list,
+CumulativePositiveByPrefecture: CumulativePositiveByPrefectureTy list
+}
+val covidDBServer: covidDB SQL.server
+val initDB : unit -> unit
+end
