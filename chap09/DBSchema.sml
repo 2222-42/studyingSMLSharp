@@ -9,13 +9,16 @@ type DataSourceTy = {
     covid19: string,
     covid19UpdatedAt:string
 }
+
 type covidDB = {
     DataSource: DataSourceTy list,
     PrefecturesList: PrefecturesListTy list,
     PopulationByPrefecture: PopulationByPrefectureTy list,
     CumulativePositiveByPrefecture: CumulativePositiveByPrefectureTy list
 }
+
 val covidDBServer = _sqlserver "dbname=covidDB": covidDB
+
 fun initDB() =
     let
         val _ = (OS.Process.system "dropdb covidDB";

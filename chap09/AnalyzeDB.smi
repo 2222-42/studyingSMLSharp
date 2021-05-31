@@ -1,0 +1,12 @@
+_require "basis.smi"
+_require "sql.smi"
+_require "./DBSchema.smi"
+structure AnalyzeDB =
+struct
+type resultTy = {
+    cumulativePositive:real,
+    prefectureName:string,
+    "population(10k)":real,
+    "cumulativePositiveRate(per 10k)":real}
+val Q : DBSchema.covidDB SQL.conn -> resultTy SQL.cursor
+end
