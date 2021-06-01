@@ -15,14 +15,15 @@ type covidDB = {
     PrefecturesList: PrefecturesListTy list,
     PopulationByPrefecture: PopulationByPrefectureTy list,
     CumulativePositiveByPrefecture: CumulativePositiveByPrefectureTy list
-}
+};
 
-val covidDBServer = _sqlserver "dbname=covidDB": covidDB
+val userAndPassStr = "user=" ^ myDBEnv.user ^ " password=" ^ myDBEnv.password;
+val covidDBServer = _sqlserver (SQL.postgresql ("dbname=covidDB " ^ userAndPassStr)): covidDB
 
 fun initDB() =
     let
-        val _ = (OS.Process.system "dropdb covidDB";
-                 OS.Process.system "createdb covidDB")
+        val _ = (OS.Process.system ("sudo -u " ^ myDBEnv.user ^ " dropdb covidDB");
+                 OS.Process.system ("sudo -u " ^ myDBEnv.user ^ " createdb covidDB"))
         val conn = SQL.connectAndCreate covidDBServer
     in
         SQL.closeConn conn

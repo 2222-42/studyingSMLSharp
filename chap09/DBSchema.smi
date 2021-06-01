@@ -1,5 +1,6 @@
 _require "basis.smi"
 _require "sql.smi"
+_require "./myDBEnv.smi"
 
 structure DBSchema =
 struct
