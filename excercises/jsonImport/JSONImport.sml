@@ -5,7 +5,7 @@ fun downloadJson url =
     let
         val tmpFile = OS.FileSys.tmpName ();
         val cmd =
-            "wget -o wget.log -O " ^ tmpFile ^ " " ^ "\"" ^ url ^ "\"";
+            "wget --inet4-only -o wget.log -O " ^ tmpFile ^ " " ^ "\"" ^ url ^ "\"";
         val _ = OS.Process.system cmd;
     in
         Dynamic.fromJsonFile tmpFile
@@ -18,4 +18,3 @@ fun 'a#reify castLike data (sample: 'a) =
 fun 'a#reify import {url, sample : 'a, ...} =
     castLike (downloadJson url) sample;
 end;
-
