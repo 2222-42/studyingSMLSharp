@@ -6,4 +6,5 @@ _require "./DataSource.smi"
 structure DBSetup =
 struct
 val setupDB : unit -> unit
+val updateDB : unit -> unit
 end

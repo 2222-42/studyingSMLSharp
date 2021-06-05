@@ -9,8 +9,7 @@ struct
          [{PrefectureData = DataSource.PopulationByPrefectureUrl,
            PrefectureDataGetAt =
            #date (#RESULT  (#GET_STATS PopulationByPrefecture)),
-           covid19 = DataSource.CumulativePositiveUrl,
-           covid19UpdatedAt = #lastUpdate (hd CumulativePositive)
+           covid19 = DataSource.CumulativePositiveUrl
          }]
      val PrefecturesList: DBSchema.PrefecturesListTy list =
          map (fn {"@name" =n, "@regionCode" = c} =>
@@ -29,13 +28,8 @@ struct
              ((#DATA_OBJ o #DATA_INF o #STATISTICAL_DATA o #GET_STATS)
                   PopulationByPrefecture)
 
-     val CumulativePositiveByPrefecture: DBSchema.CumulativePositiveByPrefectureTy list =
-         map (fn {name_jp=n, npatients=p} =>
-                 {prefectureName=n, cumulativePositive = Real.fromInt p})
-             (#area (hd CumulativePositive))
-
      val _ = (_sql db => insert into #db.DataSource
-                        (PrefectureData, PrefectureDataGetAt, covid19, covid19UpdatedAt)
+                        (PrefectureData, PrefectureDataGetAt, covid19)
                         values DataSource)
              conn
      val _ = (_sql db => insert into #db.PrefecturesList
@@ -46,12 +40,31 @@ struct
                         (code, population)
                         values PopulationByPrefecture)
              conn
-     val _ = (_sql db => insert into #db.CumulativePositiveByPrefecture
-                        (prefectureName, cumulativePositive)
-                        values CumulativePositiveByPrefecture)
-             conn
-
    in
      SQL.closeConn conn
-   end
+   end;
+
+ fun updateDB () =
+     let
+       val conn = SQL.connect DBSchema.covidDBServer
+       val {PrefectureCode, PopulationByPrefecture, CumulativePositive} = DataSource.import();
+       val CumulativePositiveByPrefecture: DBSchema.CumulativePositiveByPrefectureTy list =
+           map (fn {name_jp=n, npatients=p} =>
+                   {prefectureName=n, cumulativePositive = Real.fromInt p})
+               (#area (hd CumulativePositive))
+       val insert = (_sql db => insert into #db.CumulativePositiveByPrefecture
+                                       (prefectureName, cumulativePositive)
+                                       values CumulativePositiveByPrefecture)
+       val delete = (_sql db => delete from #db.CumulativePositiveByPrefecture)
+       val covid19UpdatedAt = #lastUpdate (hd CumulativePositive)
+       val update = (_sql db => update #db.DataSource set covid19UpdatedAt = covid19UpdatedAt)
+
+     in
+       (
+         (* delete all CumulativePositiveByPrefecture  and insert CumulativePositiveByPrefecture*)
+         delete conn; insert conn;
+       (* update covid19UpdatedAt *)
+         update conn
+       )
+     end
 end
