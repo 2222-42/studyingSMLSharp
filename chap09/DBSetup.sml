@@ -9,7 +9,8 @@ struct
          [{PrefectureData = DataSource.PopulationByPrefectureUrl,
            PrefectureDataGetAt =
            #date (#RESULT  (#GET_STATS PopulationByPrefecture)),
-           covid19 = DataSource.CumulativePositiveUrl
+           covid19 = DataSource.CumulativePositiveUrl,
+           covid19UpdatedAt = #lastUpdate (hd CumulativePositive)
          }]
      val PrefecturesList: DBSchema.PrefecturesListTy list =
          map (fn {"@name" =n, "@regionCode" = c} =>
@@ -29,7 +30,7 @@ struct
                   PopulationByPrefecture)
 
      val _ = (_sql db => insert into #db.DataSource
-                        (PrefectureData, PrefectureDataGetAt, covid19)
+                        (PrefectureData, PrefectureDataGetAt, covid19, covid19UpdatedAt)
                         values DataSource)
              conn
      val _ = (_sql db => insert into #db.PrefecturesList
