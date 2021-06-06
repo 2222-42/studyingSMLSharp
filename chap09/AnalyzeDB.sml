@@ -6,6 +6,7 @@ struct
                      prefectureName: string,
                      "population(10k)": real,
                      "cumulativePositiveRate(per 10k)": real};
+
     fun fromDB (db : dbty) =
         _sql from #db.PrefecturesList,
                   #db.PopulationByPrefecture,
@@ -27,5 +28,27 @@ struct
             select ...(displayRatio db)
                    from ...(fromDB db)
                    where ...(whereDB db)
-                   order by #."cumulativePositiveRate(per 10k)" desc
+                   order by #."cumulativePositiveRate(per 10k)" desc;
+
+    fun selectPref (db:dbty) n =
+        let
+            fun display db =
+                _sql select
+                     #PrefecturesList.code as code,
+                     #PrefecturesList.prefectureName as prefectureName;
+            fun whereQ (db: dbty) n =
+                _sql where
+                     (#PopulationByPrefecture.population > n
+                      and #PrefecturesList.code = #PopulationByPrefecture.code)
+            fun fromQ (db: dbty) =
+                _sql from #db.PrefecturesList,
+                          #db.PopulationByPrefecture
+        in
+            _sql select ...(display db)
+                   from ...(fromQ db)
+                   where ...(whereQ db n)
+
+        end
+    (* Q9.3でDB接続テストのため  *)
+    val sampleQ = _sql db : dbty => select ...(selectPref db 7500000.0)
 end
