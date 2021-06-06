@@ -51,4 +51,23 @@ struct
         end
     (* Q9.3でDB接続テストのため  *)
     val sampleQ = _sql db : dbty => select ...(selectPref db 7500000.0)
+
+    fun makeAnalyze r =
+        (*let
+            fun fromDBwithPref (db: dbty) =
+                _sql from (select ...(selectPref db r)) as PrefecturesList,
+                          #db.PopulationByPrefecture,
+                          #db.CumulativePositiveByPrefecture;
+        in*)
+
+            _sql db : dbty =>
+            select ...(displayRatio db)
+                   (*from ...(fromDBwithPref db)*)
+                   from  (select ...(selectPref db r)) as PrefecturesList,
+                          #db.PopulationByPrefecture,
+                          #db.CumulativePositiveByPrefecture
+                   where ...(whereDB db)
+                   order by #."cumulativePositiveRate(per 10k)" desc;
+        (*end*)
+
 end
