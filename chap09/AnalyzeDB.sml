@@ -30,7 +30,7 @@ struct
                    where ...(whereDB db)
                    order by #."cumulativePositiveRate(per 10k)" desc;
 
-    fun selectPref (db:dbty) n =
+    fun selectPrefWhichPopulationOverN (db:dbty) n =
         let
             fun display db =
                 _sql select
@@ -50,24 +50,36 @@ struct
 
         end
     (* Q9.3でDB接続テストのため  *)
-    val sampleQ = _sql db : dbty => select ...(selectPref db 7500000.0)
+    val sampleQ = _sql db : dbty => select ...(selectPrefWhichPopulationOverN db 7500000.0)
+    fun selectPref (db:dbty) =
+        let
+            fun display db =
+                _sql select
+                     #PrefecturesList.code as code,
+                     #PrefecturesList.prefectureName as prefectureName;
+            fun whereQ (db: dbty) =
+                _sql where
+                     ((Num) #PopulationByPrefecture.population >= (
+                         select avg(#prefectures.population) from #db.PopulationByPrefecture as prefectures group by ()
+                     ) and #PrefecturesList.code = #PopulationByPrefecture.code)
 
-    fun makeAnalyze r =
-        (*let
-            fun fromDBwithPref (db: dbty) =
-                _sql from (select ...(selectPref db r)) as PrefecturesList,
-                          #db.PopulationByPrefecture,
-                          #db.CumulativePositiveByPrefecture;
-        in*)
+            fun fromQ (db: dbty) =
+                _sql from #db.PrefecturesList,
+                          #db.PopulationByPrefecture
+        in
+            _sql select ...(display db)
+                   from ...(fromQ db)
+                   where ...(whereQ db)
 
-            _sql db : dbty =>
-            select ...(displayRatio db)
-                   (*from ...(fromDBwithPref db)*)
-                   from  (select ...(selectPref db r)) as PrefecturesList,
-                          #db.PopulationByPrefecture,
-                          #db.CumulativePositiveByPrefecture
-                   where ...(whereDB db)
-                   order by #."cumulativePositiveRate(per 10k)" desc;
-        (*end*)
+        end
+    val makeAnalyze =
+        _sql db : dbty =>
+        select ...(displayRatio db)
+               (*from ...(fromDBwithPref db)*)
+               from  (select ...(selectPref db)) as PrefecturesList,
+                      #db.PopulationByPrefecture,
+                      #db.CumulativePositiveByPrefecture
+               where ...(whereDB db)
+               order by #."cumulativePositiveRate(per 10k)" desc;
 
 end

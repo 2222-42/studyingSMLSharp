@@ -9,8 +9,9 @@ struct
         "population(10k)":real,
         "cumulativePositiveRate(per 10k)":real}
     val Q : DBSchema.covidDB SQL.conn -> resultTy SQL.cursor
-    val selectPref : ['a. (DBSchema.covidDB, 'a) SQL.db -> real -> ({code: string,prefectureName:string} list, 'a) SQL.query]
+    val selectPrefWhichPopulationOverN : ['a. (DBSchema.covidDB, 'a) SQL.db -> real -> ({code: string,prefectureName:string} list, 'a) SQL.query]
    (* Q9.3でDB接続テストのため  *)
    val sampleQ : DBSchema.covidDB SQL.conn -> {code: string,prefectureName:string} SQL.cursor
-   val makeAnalyze : real -> DBSchema.covidDB SQL.conn -> resultTy SQL.cursor
+   val selectPref : ['a. (DBSchema.covidDB, 'a) SQL.db -> ({code: string,prefectureName:string} list, 'a) SQL.query]
+   val makeAnalyze : DBSchema.covidDB SQL.conn -> resultTy SQL.cursor
 end
