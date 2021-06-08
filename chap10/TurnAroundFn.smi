@@ -1,0 +1,6 @@
+_require "basis.smi"
+_require "reify.smi"
+_require "thread.smi"
+val r : (int * int * int) ref
+val t : int -> int -> int -> int
+val th : Pthread.thread
