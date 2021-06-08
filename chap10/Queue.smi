@@ -1,0 +1,8 @@
+_require "basis.smi"
+_require "thread.smi"
+
+type 'a queue (={})
+val create : int -> 'a queue
+val enqueue : 'a queue * 'a -> unit
+val dequeue : 'a queue -> 'a
+val destroy : 'a queue -> unit
