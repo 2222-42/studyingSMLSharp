@@ -125,5 +125,41 @@ fun writeImage filename =
         BinIO.closeOut f
     end;
 
-val _ = rayTrace (0, 0, width, height)
+(*val _ = rayTrace (0, 0, width, height)*)
+
+(* ワーカーの数を決める *)
+val n = case OS.Process.getEnv "NTHREADS"
+         of NONE => 1
+          | SOME s => getOpt(Int.fromString s, 1);
+(* バッファの大きさはワーカーの数の2倍としておく  *)
+val q = create (n * 2);
+
+(* キューに投入されるタスクを表す型 *)
+datatype task = TASK of int * int * int * int | END;
+
+fun worker () =
+    case dequeue q
+     of TASK x => (rayTrace x; worker())
+      | END => 0;
+
+val workers =
+    List.tabulate (n, fn _ => Pthread.Thread.create worker);
+
+(* 画像を8*8の小片に分割し、小片ごとにタスクを生成する *)
+fun for (x, w, s) f =
+    if x >= w then ()
+    else (f (x, Int.min (s, w - x));
+          for (x + s, w, s) f);
+
+val cutOff = 8;
+val _ =
+    for (0, height, cutOff)
+        (fn (y, h) =>
+            for (0, width, cutOff)
+                (fn (x, w) => enqueue (q, TASK (x, y, w, h)))
+        );
+
+val _ = List.app (fn _ => enqueue (q, END)) workers;
+val _ = List.app (ignore o Pthread.Thread.join) workers;
+
 val _ = writeImage "out.ppm"
