@@ -23,7 +23,7 @@ val dummySphere = {center = (0.0, 0.0, 0.0), radius = 0.0};
 val width = 1024;
 val height = 1025;
 (* 視点 *)
-val eye = (0.0, 0,0, 5.0);
+val eye = (0.0, 0.0, 5.0);
 (* 光源 *)
 val light = normal (1.0, 1.0, 1.0);
 
@@ -45,7 +45,7 @@ val scene = tree 4 1.0 (0.0, 0.6, 0.0);
 (* TODO: この関数の意図(0.5ってなに？とか)がよくわかっていないのでちゃんと調べる *)
 fun primary (x, y) =
     normal (real x + 0.5 - real width / 2.0,
-            ~(real x + 0.5 - real width / 2.0),
+            ~(real y + 0.5 - real width / 2.0),
             ~(real height));
 (* 視線と級の交点 *)
 fun ray_sphere {orig, dir} {center, radius} =
@@ -77,3 +77,53 @@ fun intersect (ray as {orig, dir}) =
 (* 2. 交点から光源までの間に光を遮る物体がないこと *)
 fun shadow p =
     #1 (intersect {orig = p, dir = light}) < Real.posInf;
+
+(* 放射輝度 *)
+fun pixel pos =
+    let
+        val ray = {orig = eye, dir = primary pos}
+        val (t, p, n) = intersect ray
+    in
+        if t >= Real.posInf then 0.0
+        else
+            let
+                val v = dot n light (* ランベルトの余弦則より *)
+            in
+                if v <= 0.0 orelse shadow p then 0.0
+                else v
+            end
+    end;
+
+(* 画像データ *)
+val image = Word8Array.array (width * height, 0w0);
+
+(* 画像の座標に輝度`r`を書き込む *)
+fun set (x, y) r =
+    Word8Array.update
+        (image, x + width * y, Word8.fromInt (Int.min (trunc (r * 255.0), 255)));
+
+(* 幅w, 高さhの範囲のレイトレーシングを行い画素を書き込むループ *)
+fun loop (x, w) f =
+    if w <= 0 then () else (f x; loop (x + 1, w - 1) f);
+fun rayTrace (x, y, w, h) =
+    loop (y, h)
+         (fn y =>
+             loop (x, w)
+                  (fn x => set (x, y) (pixel (x, y)))
+         );
+
+(* 生成した画像をPNM形式でファイルに出力する  *)
+fun writeImage filename =
+    let
+        val f = BinIO.openOut filename
+        val w = Int.toString width
+        val h = Int.toString height
+        val head = "P5\n" ^ w ^ " " ^ h ^ " 255\n"
+    in
+        BinIO.output (f, Byte.stringToBytes head);
+        BinIO.output (f, Word8Array.vector image);
+        BinIO.closeOut f
+    end;
+
+val _ = rayTrace (0, 0, width, height)
+val _ = writeImage "out.ppm"
