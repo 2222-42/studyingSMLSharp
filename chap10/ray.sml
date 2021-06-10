@@ -17,7 +17,7 @@ type ray = {orig: vec, dir: vec};
 
 (* 球 *)
 type sphere = {center: vec, radius: real};
-val dummySphere = {center = (00, 0,0, 0,0), radius = 0.0};
+val dummySphere = {center = (0.0, 0.0, 0.0), radius = 0.0};
 
 (* 画像の大きさ *)
 val width = 1024;
@@ -64,7 +64,7 @@ fun intersect (ray as {orig, dir}) =
         val (t, {center, ...}) =
             foldl (fn (x, z) => if #1 x < #1 z then x else z)
                   (Real.posInf, dummySphere)
-                  (map (fn x => (ray_sphere ray s, s)) scene)
+                  (map (fn s => (ray_sphere ray s, s)) scene)
         val p = add orig (scale t dir)
         val n = normal (sub p center)
     in
