@@ -1,5 +1,7 @@
 実行記録
 
+## ray
+
 CPU: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
 
 ```markdown 
@@ -38,3 +40,30 @@ sys     0m0.408s
 16スレッドにしたら実際にかかる時間がめっちゃ増えた。
 
 CPU性能の差なのだろうか？
+
+## pfib
+
+``` markdown
+MYTH_NUM_WORKERS=2 ./pfib
+0.638398
+```
+
+``` markdown
+MYTH_NUM_WORKERS=4 ./pfib
+0.408988
+```
+
+``` markdown
+ MYTH_NUM_WORKERS=8 ./pfib
+0.329351
+```
+
+``` markdown
+MYTH_NUM_WORKERS=16 ./pfib                                                                                                                                            
+0.554931
+```
+
+``` markdown
+MYTH_NUM_WORKERS=32 ./pfib
+0.831525
+```
