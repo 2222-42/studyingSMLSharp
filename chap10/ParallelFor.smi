@@ -1,0 +1,5 @@
+_require "basis.smi"
+_require "thread.smi"
+_require "reify.smi"
+
+val parallel_for : {begin: int, last: int, size: int} -> (int -> unit) -> unit
