@@ -15,6 +15,6 @@ fun parallel_for {begin, last, size} (f: int -> unit) =
             ()
         end;
 
-val a = Array.array (64, 0);
+(*val a = Array.array (64, 0);
 val _ = parallel_for {begin = 0, last = 63, size = 8} (fn i => Array.update(a, i, i));
-val _ = Dynamic.pp(a);
+val _ = Dynamic.pp(a);**)

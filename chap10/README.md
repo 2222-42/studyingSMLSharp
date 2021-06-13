@@ -76,6 +76,51 @@ sys     0m0.697s
 
 それほど早くなっていないが、16スレッドの場合はかなり向上している。
 
+### ray with parallel_for
+
+``` markdown
+time MYTH_NUM_WORKERS=1 ./ray
+
+real	0m2.823s
+user	0m2.804s
+sys	0m0.000s
+
+```
+
+``` markdown
+time MYTH_NUM_WORKERS=2 ./ray
+
+real	0m1.465s
+user	0m2.892s
+sys	0m0.016s
+```
+
+``` markdown
+time MYTH_NUM_WORKERS=4 ./ray
+
+real	0m0.875s
+user	0m3.461s
+sys	0m0.016s
+
+```
+
+``` markdown
+time MYTH_NUM_WORKERS=8 ./ray
+
+real	0m0.688s
+user	0m5.373s
+sys	0m0.041s
+```
+
+``` markdown
+time MYTH_NUM_WORKERS=16 ./ray
+
+real	0m8.383s
+user	1m36.674s
+sys	0m0.329s
+```
+
+
 ## pfib
 
 ``` markdown

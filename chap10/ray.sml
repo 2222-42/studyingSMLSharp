@@ -21,7 +21,7 @@ val dummySphere = {center = (0.0, 0.0, 0.0), radius = 0.0};
 
 (* 画像の大きさ *)
 val width = 1024;
-val height = 1025;
+val height = 1024;
 (* 視点 *)
 val eye = (0.0, 0.0, 5.0);
 (* 光源 *)
@@ -165,7 +165,7 @@ val _ =
 val _ = List.app (fn _ => enqueue (q, END)) workers;
 val _ = List.app (ignore o Pthread.Thread.join) workers;
 
-val _ = writeImage "out.ppm"
+
 *)
 
 (* MassiveThreadsを用いた並列化 *)
@@ -191,4 +191,15 @@ fun rayPara x y w h =
                 rayPara x (y + h2) w (h - h2);
                 Myth.Thread.join t
             end;
-val _ = rayPara 0 0 width height;
+(*val _ = rayPara 0 0 width height;*)
+
+(* parallel_forを使った並列化 *)
+fun rayParallelFor x y w h =
+    parallel_for {begin = 0, last = width - 1, size = w}
+                 (fn x => parallel_for {begin = 0, last = height- 1, size = h}
+                                       (fn y => (rayTrace (x, y, w, h))
+                                       )
+                 )
+val _ = rayParallelFor 0 0 cutOff cutOff;
+
+val _ = writeImage "out.ppm"
