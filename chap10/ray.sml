@@ -127,6 +127,8 @@ fun writeImage filename =
 
 (*val _ = rayTrace (0, 0, width, height)*)
 
+
+(* PThreadsを使った並列化 *)
 (* ワーカーの数を決める *)
 val n = case OS.Process.getEnv "NTHREADS"
          of NONE => 1
@@ -152,6 +154,7 @@ fun for (x, w, s) f =
           for (x + s, w, s) f);
 
 val cutOff = 8;
+(*
 val _ =
     for (0, height, cutOff)
         (fn (y, h) =>
@@ -163,3 +166,29 @@ val _ = List.app (fn _ => enqueue (q, END)) workers;
 val _ = List.app (ignore o Pthread.Thread.join) workers;
 
 val _ = writeImage "out.ppm"
+*)
+
+(* MassiveThreadsを用いた並列化 *)
+fun rayPara x y w h =
+    if (w <= cutOff andalso h <= cutOff) then
+        (rayTrace (x, y, w, h); 0)
+    else
+        if w >= h then
+            let
+                val w2 = w div 2
+                val t = Myth.Thread.create
+                            (fn _ => rayPara x y w2 h)
+            in
+                rayPara (x + w2) y (w - w2) h;
+                Myth.Thread.join t
+            end
+        else
+            let
+                val h2 = h div 2
+                val t = Myth.Thread.create
+                            (fn _ => rayPara x y w h2)
+            in
+                rayPara x (y + h2) w (h - h2);
+                Myth.Thread.join t
+            end;
+val _ = rayPara 0 0 width height;

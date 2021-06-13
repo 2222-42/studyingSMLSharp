@@ -41,6 +41,41 @@ sys     0m0.408s
 
 CPU性能の差なのだろうか？
 
+### ray with myth
+
+``` markdown
+time MYTH_NUM_WORKERS=2 ./ray
+real    0m2.193s
+user    0m4.339s
+sys     0m0.008s
+```
+
+``` markdown
+time MYTH_NUM_WORKERS=4 ./ray
+
+real    0m1.426s
+user    0m5.644s
+sys     0m0.020s
+```
+
+``` markdown
+time MYTH_NUM_WORKERS=8 ./ray
+
+real    0m1.132s
+user    0m8.899s
+sys     0m0.045s
+```
+
+``` markdown
+time MYTH_NUM_WORKERS=16 ./ray
+
+real    0m13.935s
+user    2m39.871s
+sys     0m0.697s
+```
+
+それほど早くなっていないが、16スレッドの場合はかなり向上している。
+
 ## pfib
 
 ``` markdown
