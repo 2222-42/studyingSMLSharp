@@ -1,0 +1,10 @@
+_require "basis.smi"
+_require "ffi.smi"
+
+structure Cairo =
+struct
+   exception Error of string
+   type cairo_surface_t (= ptr)
+   val cairo_pdf_surface_create : string * real * real -> cairo_surface_t
+
+end
