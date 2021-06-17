@@ -7,4 +7,7 @@ struct
    type cairo_surface_t (= ptr)
    val cairo_pdf_surface_create : string * real * real -> cairo_surface_t
 
+   type cairo_t (= ptr)
+   val cairo_create : cairo_surface_t -> cairo_t
+
 end
