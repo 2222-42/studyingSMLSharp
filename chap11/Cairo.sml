@@ -42,4 +42,17 @@ struct
         (if Array.length a = 6 then () else raise Size;
          cairo_text_extents_ORIG(c,s,a));
 
+    type cairo_surface_t_ =
+         cairo_surface_t * (word8 vector -> cairo_status_t);
+    val 'a#boxed cairo_pdf_surface_create_for_stream_ORIG =
+        _import "cairo_pdf_surface_create_for_stream"
+        : (('a, word8 ptr, word) -> cairo_status_t, 'a, real, real) -> cairo_surface_t;
+    fun cairo_pdf_surface_create_for_stream_CALLBACK (f, y, z) =
+        f (Pointer.importBytes (y, Word.toInt z));
+    fun cairo_pdf_surface_create_for_stream (f, x, y) =
+        (cairo_pdf_surface_create_for_stream_ORIG
+             (cairo_pdf_surface_create_for_stream_CALLBACK, f, x, y),
+         f) : cairo_surface_t_;
+    (* TODO: cairo_surface_t *型の引数を受け取る関数をcairo_surface_t_型を受け取るようにインポートし定義するのは後でやる*)
+
 end

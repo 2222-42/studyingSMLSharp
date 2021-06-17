@@ -10,4 +10,6 @@ struct
    type cairo_t (= ptr)
    val cairo_create : cairo_surface_t -> cairo_t
 
+   type cairo_surface_t_ (= *)
+
 end
