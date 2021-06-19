@@ -52,6 +52,21 @@ struct
     fun evalObj c (FILL path) = (evalPath c path; cairo_fill c)
       | evalObj c (STROKE path) = (evalPath c path; cairo_stroke c);
 
-            
+
+    fun toPDF filename objs =
+        let
+            val s = cairo_pdf_surface_create (filename, 144.0, 144.0);
+            val c = cairo_create s;
+        in
+            cairo_set_source_rgb (c, 1.0, 1.0, 1.0);
+            cairo_paint c;
+            cairo_set_source_rgb (c, 0.0, 0.0, 0.0);
+            cairo_scale (c, 144.0, 144.0);
+            cairo_set_font_size (c, 0.05);
+            cairo_set_line_width (c, 0.0025);
+            app (evalObj c) objs;
+            cairo_destroy c;
+            cairo_surface_destroy s
+        end
 
 end
