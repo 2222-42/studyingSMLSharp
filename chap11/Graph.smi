@@ -4,4 +4,5 @@ _require "./Draw.smi"
 structure Graph =
 struct
     val plot : {x: real, y:real} list -> Draw.obj list
+    val histogram : {x: real} list -> Draw.obj list
 end
