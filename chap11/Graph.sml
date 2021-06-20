@@ -6,7 +6,7 @@ struct
             val w = (max - min) / 2.0
             val e = Math.pow (10.0, Real.realFloor (Math.log10 w))
             val s = w / e
-            val step = if s >= 5.0 then 5.0 * e
+            val step = if s >= 15.0 then 5.0 * e
                        else if s >= 2.0 then 2.0 * e
                        else e
         in
@@ -16,8 +16,7 @@ struct
     fun ticks max min step scale offset =
         List.tabulate
             (trunc ((max - min) / step + 1.00001),
-             fn i => (step * real i * scale + offset,
-                      tickLabel (step * real i + min)));
+             fn i => (step * real i * scale + offset, tickLabel (step * real i + min)))
     fun drawAxes points =
         let
             val xmax = foldl Real.max Real.negInf (map #x points)
