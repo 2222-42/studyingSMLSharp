@@ -9,12 +9,15 @@
 - `-r` : オブジェクトファイルを対話型モードのSML#にリンクして実行する
 
 > smlsharp -o main.o -c main.sml
+> 
 > smlsharp -r main.smi
 
 ### make
 
 > smlsharp -MMm main.smi > Makefile
+> 
 > make
+> 
 > ./main
 
 ### c 連携
